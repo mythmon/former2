@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Form Viewier</title>
+
+    <style>
+      img {
+        max-width: 90vw;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li>created: {{ submission.created|as_tz('US/Pacific')|fmtdatetime }}</li>
+      {% for row in submission.rows %}
+        <li>{{ row.key }}: {{ row.value }}</li>
+      {% endfor %}
+      {% for file in submission.files %}
+        <li>
+          {% set imgurl = file.url_for() %}
+          {{ file.key }}: <br>
+          <a href="{{ imgurl }}"><img src="{{ imgurl }}"</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
