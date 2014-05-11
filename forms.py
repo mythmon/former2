@@ -195,5 +195,21 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
+class ScriptNameStripper(object):
+    to_strip = '/index.fcgi'
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        path_info = environ.get('SCRIPT_NAME', '')
+        environ['SCRIPT_NAME'] = path_info.replace(self.to_strip, '')
+        return self.app(environ, start_response)
+
+
+if app.config.get('FCGI'):
+    app.wsgi_app = ScriptNameStripper(app.wsgi_app)
+
+
 if __name__ == '__main__':
     app.run()

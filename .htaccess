@@ -1,8 +1,5 @@
 Options +ExecCGI
 AddHandler fcgid-script .fcgi
 RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !=/home6/daisybuc/public_html/details2enjoy/forms/main.fcgi
-RewriteRule ^(.*)$ main.fcgi/$1
-
-#SetHandler uwsgi-handler
-#uWSGISocket uwsgi.socket
+RewriteCond %{REQUEST_FILENAME} !=/home6/daisybuc/public_html/details2enjoy/forms/index.fcgi
+RewriteRule ^(.*)$ index.fcgi/$1
