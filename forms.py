@@ -1,8 +1,11 @@
 import os
 import random
+import subprocess
+import traceback
 from datetime import datetime
+from email.mime.text import MIMEText
 
-from flask import Flask, request, redirect, abort
+from flask import Flask, request, redirect, abort, g
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
@@ -13,6 +16,9 @@ app.config.update({
     'SQLALCHEMY_DATABASE_URI': 'sqlite:///database.sqlite',
     'UPLOAD_FOLDER': 'uploads',
     'UPLOAD_ALLOWED_EXTENSIONS': ['png', 'gif', 'jpg', 'bmp'],
+    'FORMS': {},
+    'EMAIL_DEFAULT_TO': None,
+    'EMAIL_DEFAULT_FROM': None,
 })
 app.config.from_pyfile('config.py')
 
@@ -31,6 +37,10 @@ class Submission(db.Model):
 
     def __repr__(self):
         return '<Submission %s:%d>' % (self.form_name, self.id)
+
+    @property
+    def url(self):
+        return 'http://example.org/submission/{0}'.format(self.id)
 
 
 class SubmissionRow(db.Model):
@@ -91,7 +101,53 @@ def get_safe_filename(filename):
             return safe
 
 
-@app.route('/receiver/<form_name>', methods=['POST', 'GET'])
+def after_response(func, *args, **kwargs):
+    print('queueing', func, args, kwargs)
+    if not hasattr(g, 'after_response_callbacks'):
+        g.after_response_callbacks = []
+    g.after_response_callbacks.append((func, args, kwargs))
+
+
+@app.teardown_request
+def call_after_response_callbacks(error=None):
+    print('running after_response callbacks')
+    if error:
+        print('Error passed:', error)
+        g.after_request_callbacks = []
+        return
+    for (cb, args, kwargs) in getattr(g, 'after_response_callbacks', []):
+        try:
+            cb(*args, **kwargs)
+        except Exception as e:
+            print('Error calling', cb)
+            print('{}: {}'.format(type(e).__name__, e))
+            traceback.print_tb(e.__traceback__)
+
+
+def send_email_task(submission):
+    form_meta = app.config['FORMS'].get(submission.form_name, {})
+    pretty_name = form_meta.get('display_name', submission.form_name)
+    to_addr = form_meta.get('email_to', app.config.get('EMAIL_DEFAULT_TO'))
+    from_addr = form_meta.get('email_from', app.config.get('EMAIL_DEFAULT_FROM'))
+
+    if to_addr and from_addr:
+        print('Sending email.')
+        msg = MIMEText(submission.url)
+        msg['From'] = from_addr
+        msg['To'] = to_addr
+        msg['Subject'] = ('There has been a new submission to {0}.'
+                          .format(pretty_name))
+
+        p = subprocess.Popen(['/usr/sbin/sendmail', '-t', '-i'],
+                             stdin=subprocess.PIPE)
+        stdout, stderr = p.communicate(msg.as_string().encode())
+        print('stdout', stdout)
+        print('stderr', stderr)
+    else:
+        print('cannot send mail, to_addr:', to_addr, 'from_addr:', from_addr)
+
+
+@app.route('/receiver/<form_name>', methods=['POST'])
 def receiver(form_name):
     submission = Submission(form_name)
     db.session.add(submission)
@@ -100,6 +156,8 @@ def receiver(form_name):
     for uploaded_file in request.files.values():
         db.session.add(SubmissionFile.from_upload(submission, uploaded_file))
     db.session.commit()
+
+    after_response(send_email_task, submission)
 
     return 'ok'
 
