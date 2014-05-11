@@ -16,11 +16,12 @@
       {% for row in submission.rows %}
         <li>{{ row.key }}: {{ row.value }}</li>
       {% endfor %}
+
       {% for file in submission.files %}
         <li>
           {% set imgurl = file.url_for() %}
           {{ file.key }}: <br>
-          <a href="{{ imgurl }}"><img src="{{ imgurl }}"</a>
+          <a href="{{ imgurl }}"><img src="{{ imgurl }}"></a>
         </li>
       {% endfor %}
     </ul>

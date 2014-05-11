@@ -169,10 +169,12 @@ def send_email_task(submission):
 def receiver(form_name):
     submission = Submission(form_name)
     db.session.add(submission)
-    for key, value in request.form.items():
-        db.session.add(SubmissionRow(submission, key, value))
-    for uploaded_file in request.files.values():
-        db.session.add(SubmissionFile.from_upload(submission, uploaded_file))
+    for key, values in request.form.lists():
+        for value in values:
+            db.session.add(SubmissionRow(submission, key, value))
+    for file_list in request.files.listvalues():
+        for uploaded_file in file_list:
+            db.session.add(SubmissionFile.from_upload(submission, uploaded_file))
     db.session.commit()
 
     after_response(send_email_task, submission)
