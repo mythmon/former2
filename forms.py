@@ -5,7 +5,9 @@ import traceback
 from datetime import datetime
 from email.mime.text import MIMEText
 
-from flask import Flask, request, redirect, abort, g
+import pytz
+from flask import (Flask, request, redirect, abort, g, render_template,
+                   url_for, send_from_directory)
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
@@ -38,9 +40,9 @@ class Submission(db.Model):
     def __repr__(self):
         return '<Submission %s:%d>' % (self.form_name, self.id)
 
-    @property
-    def url(self):
-        return 'http://example.org/submission/{0}'.format(self.id)
+    def url_for(self, _external=False):
+        return url_for('.viewer', form_name=self.form_name,
+                       submission_id=self.id, _external=_external)
 
 
 class SubmissionRow(db.Model):
@@ -85,6 +87,10 @@ class SubmissionFile(db.Model):
         return cls(submission, uploaded_file.name, filename,
                    original_filename=uploaded_file.filename)
 
+    def url_for(self, _external=False):
+        return url_for('uploaded_file', filename=self.filename,
+                       _external=_external)
+
 
 def allowed_upload(filename):
     _, ext = filename.rsplit('.', 1)
@@ -124,15 +130,27 @@ def call_after_response_callbacks(error=None):
             traceback.print_tb(e.__traceback__)
 
 
+@app.template_filter('as_tz')
+def as_tz(dt, tz_name):
+    tz = pytz.timezone(tz_name)
+    return pytz.utc.localize(dt).astimezone(tz)
+
+
+@app.template_filter('fmtdatetime')
+def fmtdatetime(dt):
+    return dt.strftime('%m/%d/%Y %H:%M:%S')
+
+
 def send_email_task(submission):
     form_meta = app.config['FORMS'].get(submission.form_name, {})
     pretty_name = form_meta.get('display_name', submission.form_name)
     to_addr = form_meta.get('email_to', app.config.get('EMAIL_DEFAULT_TO'))
-    from_addr = form_meta.get('email_from', app.config.get('EMAIL_DEFAULT_FROM'))
+    from_addr = form_meta.get('email_from',
+                              app.config.get('EMAIL_DEFAULT_FROM'))
 
     if to_addr and from_addr:
         print('Sending email.')
-        msg = MIMEText(submission.url)
+        msg = MIMEText(submission.url_for(_external=True))
         msg['From'] = from_addr
         msg['To'] = to_addr
         msg['Subject'] = ('There has been a new submission to {0}.'
@@ -160,6 +178,21 @@ def receiver(form_name):
     after_response(send_email_task, submission)
 
     return 'ok'
+
+
+@app.route('/viewer/<form_name>/<submission_id>')
+def viewer(form_name, submission_id):
+    submission = Submission.query.get_or_404(submission_id)
+    context = {
+        'form_name': form_name,
+        'submission': submission,
+    }
+    return render_template('viewer.html', **context)
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 if __name__ == '__main__':
