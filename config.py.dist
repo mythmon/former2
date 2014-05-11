@@ -1,0 +1,2 @@
+EMAIL_DEFAULT_TO = 'to@example.com'
+EMAIL_DEFAULT_FROM = 'from@example.com'
