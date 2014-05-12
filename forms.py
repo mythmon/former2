@@ -139,7 +139,7 @@ def as_tz(dt, tz_name):
 
 @app.template_filter('fmtdatetime')
 def fmtdatetime(dt):
-    return dt.strftime('%m/%d/%Y %H:%M:%S')
+    return dt.strftime('%m/%d/%Y %I:%M:%S %p')
 
 
 def send_email_task(submission):
