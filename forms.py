@@ -94,6 +94,7 @@ class SubmissionFile(db.Model):
 
 def allowed_upload(filename):
     _, ext = filename.rsplit('.', 1)
+    ext = ext.lower()
     return '.' in filename and ext in app.config['UPLOAD_ALLOWED_EXTENSIONS']
 
 
