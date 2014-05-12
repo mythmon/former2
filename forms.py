@@ -93,6 +93,8 @@ class SubmissionFile(db.Model):
 
 
 def allowed_upload(filename):
+    if '.' not in filename:
+        return False
     _, ext = filename.rsplit('.', 1)
     ext = ext.lower()
     return '.' in filename and ext in app.config['UPLOAD_ALLOWED_EXTENSIONS']
@@ -120,6 +122,7 @@ def call_after_response_callbacks(error=None):
     print('running after_response callbacks')
     if error:
         print('Error passed:', error)
+        traceback.print_tb(error.__traceback__)
         g.after_request_callbacks = []
         return
     for (cb, args, kwargs) in getattr(g, 'after_response_callbacks', []):
@@ -170,12 +173,17 @@ def send_email_task(submission):
 def receiver(form_name):
     submission = Submission(form_name)
     db.session.add(submission)
+
     for key, values in request.form.lists():
         for value in values:
             db.session.add(SubmissionRow(submission, key, value))
-    for file_list in request.files.listvalues():
-        for uploaded_file in file_list:
+
+    for key, values in request.files.lists():
+        for uploaded_file in values:
+            if uploaded_file.filename == '':
+                continue
             db.session.add(SubmissionFile.from_upload(submission, uploaded_file))
+
     db.session.commit()
 
     after_response(send_email_task, submission)
