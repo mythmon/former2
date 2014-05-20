@@ -11,4 +11,4 @@ req.onreadystatechange = function () {
     }
     target.innerHTML = req.responseText;
 };
-req.end();
+req.send();
