@@ -12,13 +12,13 @@
   </head>
   <body>
     <ul>
-      <li>Created: {{ submission.created|as_tz('US/Pacific')|fmtdatetime }}</li>
+      <li><strong>Created:</strong> {{ submission.created|as_tz('US/Pacific')|fmtdatetime }}</li>
       {% for key, value in pretty_data %}
         <li><strong>{{ key }}:</strong> {{ value }}</li>
       {% endfor %}
 
       <li>
-        Uploaded Images:<br>
+        <strong>Uploaded Images:</strong><br>
         {% for file in submission.files %}
           {% set imgurl = file.url_for() %}
           <a href="{{ imgurl }}"><img src="{{ imgurl }}"></a><br>
