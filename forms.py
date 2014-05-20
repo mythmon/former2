@@ -158,7 +158,7 @@ def send_email_task(submission):
         url = (submission.url_for(_external=True) or
                'Uh oh! Something went wrong')
         context = {
-            'url': url,
+            '_submission_url': url,
             'name': '[not given]',
             'business_name': '[not given]',
         }

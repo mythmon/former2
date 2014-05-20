@@ -1,9 +1,9 @@
 Junk Barn Girls Vendor Application
 
-YAY! We got a vendor application from {{ name }}! This fabulous
-lady (or fella) owns {{ business_name }}. Here is the filled out vendor application:
+YAY! We got a vendor application from {{ name }}! This fabulous lady (or fella)
+is from {{ business_name }}. Here is the filled out vendor application:
 
-{{ url }}
+{{ _submission_url }}
 
 A little note from DETAILS2ENJOY: Hi ladies, congrats on another application!
 Make sure you let us know if you have any issues or concerns regarding the form.
