@@ -1,5 +1,5 @@
 var target = document.querySelector('#form-target');
-var url = target.attr('data-url');
+var url = target.attributes['data-url'];
 
 var req = new XMLHttpRequest();
 req.open('GET', url, true);
