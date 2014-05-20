@@ -1,4 +1,4 @@
-Junkyard Girls Vendor Application
+Junk Barn Girls Vendor Application
 
 YAY! We got a vendor application from {{ name }}! This fabulous
 lady (or fella) owns {{ business_name }}. Here is the filled out vendor application:
