@@ -209,7 +209,9 @@ def uploaded_file(filename):
 
 @app.route('/static/<filename>')
 def static_file(filename):
-    return send_from_directory(app.config['STATIC_FOLDER'], filename)
+    response = send_from_directory(app.config['STATIC_FOLDER'], filename)
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 
 class ScriptNameStripper(object):
