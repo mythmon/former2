@@ -1,29 +1,29 @@
 <style>
 
-.wrap {
+#injected-form {
     width: 600px;
     margin: 0 auto;
     font-family: special-elite, serif;
 }
 
-h1 {
+#injected-form h1 {
     text-align: center;
 }
 
-p {
+#injected-form p {
     text-align: center;
     max-width: 90%;
     font-size: 17px;
     margin: 17px auto;
 }
 
-p em {
+#injected-form p em {
     text-transform: uppercase;
     color: #B72025;
     font-style: normal;
 }
 
-h1.vendor-application {
+#injected-form h1.vendor-application {
     background: url(images/VAwoodplankyellow.png) no-repeat;
     width: 255px;
     height: 53px;
@@ -34,7 +34,7 @@ h1.vendor-application {
     text-transform: uppercase;
 }
 
-.field {
+#injected-form .field {
     display: inline-block;
     min-height: 2em;
     position: relative;
@@ -42,25 +42,25 @@ h1.vendor-application {
     width: 100%;
 }
 
-.field label {
+#injected-form .field label {
     color: #B72025;
     display: block;
 }
 
-.field label:after {
+#injected-form .field label:after {
     content: ":";
 }
 
-.field.small {
+#injected-form .field.small {
     width: 294px;
 }
 
-.field.small:nth-child(2n) {
+#injected-form .field.small:nth-child(2n) {
     margin-left: 1%;
 }
 
 
-.field .paper {
+#injected-form .field .paper {
     background: url(images/VApaper4.png) no-repeat 0 0 / 100%;
     height: 60px;
     padding: 0 15px;
@@ -71,13 +71,13 @@ h1.vendor-application {
     height: 68px;
 }
 
-.field.large .paper {
+#injected-form .field.large .paper {
     background: url(images/VApaper2.png) no-repeat 0 0 / 100%;
     height: 131px;
 }
 
-.field input[type=text],
-.field textarea {
+#injected-form .field input[type=text],
+#injected-form .field textarea {
     margin: 15px 0;
     width: 100%;
     height: 32px;
@@ -89,15 +89,15 @@ h1.vendor-application {
 	font-family: special-elite, serif;
 }
 
-.field.large textarea {
+#injected-form .field.large textarea {
     height: 105px;
 }
 
-.the-submit-button {
+#injected-form .the-submit-button {
     text-align: right;
 }
 
-input[type=submit] {
+#injected-form input[type=submit] {
     background: url(images/VAsubmitbutton.png) no-repeat;
     border: 0;
     width: 254px;
@@ -109,27 +109,27 @@ input[type=submit] {
     cursor: pointer;
 }
 
-input[type=submit]:hover {
+#injected-form input[type=submit]:hover {
     background: url(images/VAsubmitbuttonredarrow.png) no-repeat;
 }
 
-input[type=file] {
+#injected-form input[type=file] {
     font-family: special-elite, serif;
     margin-top: 15px;
     color: #503A2C;
 }
 
-.help {
+#injected-form .help {
     position: absolute;
     top: 0;
     right: 8px;
 }
 
-i {
+#injected-form i {
     font-style: normal;
 }
 
-.help i.help-icon:before {
+#injected-form .help i.help-icon:before {
     content: "?";
     font-family: special-elite, serif;
     width: 16px;
@@ -141,7 +141,7 @@ i {
     z-index: 3;
 }
 
-.help .help-text {
+#injected-form .help .help-text {
     display: none;
     font-size: 14px;
     background: url(images/VApaper1.png) no-repeat;
@@ -153,11 +153,11 @@ i {
     padding: 20px 20px 25px;
 }
 
-.help:hover .help-text {
+#injected-form .help:hover .help-text {
     display: block;
 }
 
-.field.small .help .help-text {
+#injected-form .field.small .help .help-text {
     width: 150px;
 }
 
@@ -165,7 +165,7 @@ i {
 
 <script src="//use.edgefonts.net/special-elite.js"></script>
 
-<div class="wrap">
+<div id="injected-form"
     <h1><img src="images/VAwoodplankvendor.png"></h1>
 
     <p>
