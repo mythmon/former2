@@ -17,6 +17,7 @@ app = Flask(__name__)
 app.config.update({
     'SQLALCHEMY_DATABASE_URI': 'sqlite:///database.sqlite',
     'UPLOAD_FOLDER': 'uploads',
+    'STATIC_FOLDER': 'static',
     'UPLOAD_ALLOWED_EXTENSIONS': ['png', 'gif', 'jpg', 'bmp'],
     'FORMS': {},
     'EMAIL_DEFAULT_TO': None,
@@ -204,6 +205,11 @@ def viewer(form_name, submission_id):
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
+@app.route('/static/<filename>')
+def static_file(filename):
+    return send_from_directory(app.config['STATIC_FOLDER'], filename)
 
 
 class ScriptNameStripper(object):

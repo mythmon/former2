@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<title></title>
+<link rel="stylesheet" href="">
+
+<style>
+
+body {
+    font-family: special-elite, serif;
+}
+
+.wrap {
+    width: 600px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    max-width: 90%;
+    font-size: 17px;
+    margin: 17px auto;
+}
+
+p em {
+    text-transform: uppercase;
+    color: #B72025;
+    font-style: normal;
+}
+
+h1.vendor-application {
+    background: url(images/VAwoodplankyellow.png) no-repeat;
+    width: 255px;
+    height: 53px;
+    margin: 20px auto;
+    font-size: 19px;
+    color: #B72025;
+    line-height: 64px;
+    text-transform: uppercase;
+}
+
+.field {
+    display: inline-block;
+    min-height: 2em;
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.field label {
+    color: #B72025;
+    display: block;
+}
+
+.field label:after {
+    content: ":";
+}
+
+.field.small {
+    width: 294px;
+}
+
+.field.small:nth-child(2n) {
+    margin-left: 1%;
+}
+
+
+.field .paper {
+    background: url(images/VApaper4.png) no-repeat 0 0 / 100%;
+    height: 60px;
+    padding: 0 15px;
+}
+
+.field.small .paper {
+    background: url(images/VApaper5.png) no-repeat 0 0 / 100%;
+    height: 68px;
+}
+
+.field.large .paper {
+    background: url(images/VApaper2.png) no-repeat 0 0 / 100%;
+    height: 131px;
+}
+
+.field input[type=text],
+.field textarea {
+    margin: 15px 0;
+    width: 100%;
+    height: 32px;
+    border: 0;
+    background: none;
+    resize: none;
+    color: #503A2C;
+    font-size: 15px;
+	font-family: special-elite, serif;
+}
+
+.field.large textarea {
+    height: 105px;
+}
+
+.the-submit-button {
+    text-align: right;
+}
+
+input[type=submit] {
+    background: url(images/VAsubmitbutton.png) no-repeat;
+    border: 0;
+    width: 254px;
+    height: 149px;
+    font-family: special-elite, serif;
+    font-size: 45px;
+    color: #503A2C;
+    padding-left: 40px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background: url(images/VAsubmitbuttonredarrow.png) no-repeat;
+}
+
+input[type=file] {
+    font-family: special-elite, serif;
+    margin-top: 15px;
+    color: #503A2C;
+}
+
+.help {
+    position: absolute;
+    top: 0;
+    right: 8px;
+}
+
+i {
+    font-style: normal;
+}
+
+.help i.help-icon:before {
+    content: "?";
+    font-family: special-elite, serif;
+    width: 16px;
+    height: 16px;
+    color: #B72025;
+    font-weight: 100;
+    display: inline-block;
+    text-align: center;
+    z-index: 3;
+}
+
+.help .help-text {
+    display: none;
+    font-size: 14px;
+    background: url(images/VApaper1.png) no-repeat;
+    background-size: 100% 90%;
+    position: absolute;
+    right: 20px;
+    top: 0px;
+    width: 250px;
+    padding: 20px 20px 25px;
+}
+
+.help:hover .help-text {
+    display: block;
+}
+
+.field.small .help .help-text {
+    width: 150px;
+}
+
+</style>
+
+<script src="//use.edgefonts.net/special-elite.js"></script>
+
+</head>
+<body>
+
+<div class="wrap">
+    <h1><img src="images/VAwoodplankvendor.png"></h1>
+
+    <p>
+        The <em>Junk Barn Girls</em> carefully select vendors to fill the show
+        with an assortment of vintage finds, antiques, handmade goods, repurposed
+        junk, sweet treats, and jewelry.
+    </p>
+
+    <p>
+        Would you like to join the experience as a <em>vendor?</em>
+        <br>
+        Spaces  are 10'x10' and cost $125 or
+        <br>
+        10'x20' for $200 based on available space.
+    </p>
+	
+	<p>
+		<em>Vendor Applications due June 15, 2014</em>
+	</p>
+
+    <h1 class="vendor-application">
+        Vendor Application
+    </h1>
+
+    <form action="http://details2enjoy.com/forms/receiver/junkbarn" method="POST" enctype="multipart/form-data">
+        <div class="field small">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Tell us your first and last name!
+                </div>
+            </div>
+
+            <label>Name</label>
+            <div class="paper">
+                <input name="name" type="text">
+            </div>
+        </div>
+
+        <div class="field small">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    What is the name of your business, organization, or booth?
+                </div>
+            </div>
+
+            <label>Business Name</label>
+            <div class="paper">
+                <input name="business_name" type="text">
+            </div>
+        </div>
+
+        <div class="field small">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Your email should look something like name@website.com
+                </div>
+            </div>
+
+            <label>Email</label>
+            <div class="paper">
+                <input name="email" type="text">
+            </div>
+        </div>
+
+        <div class="field small">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Your phone number should be in this format: xxx.xxx.xxxx
+                </div>
+            </div>
+
+            <label>Phone Number</label>
+            <div class="paper">
+                <input name="phone_number" type="text">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Let us know where we can find you on the web! Don't have a page? No problem, just put "none" here.
+               </div>
+            </div>
+
+            <label>Blog/Website/Facebook</label>
+            <div class="paper">
+                <input name="url" type="text">
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Booth spaces are 10'x10' ($125) or 10'x20' ($200). We will try our best to match your request but spaces are limited.
+                </div>
+            </div>
+
+            <label>Booth Size Preference</label>
+            <div class="paper">
+                <input name="booth_size" type="text">
+            </div>
+        </div>
+
+        <div class="field large">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Tell us about your products! You don't have to list everything you will have, just give us a general idea!
+                </div>
+           </div>
+
+            <label>What You Sell</label>
+            <div class="paper">
+                <textarea name="what_you_sell"></textarea>
+            </div>
+        </div>
+
+        <div class="field large">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Let us know about any shows you have participated in already. If this are your first show, don't worry! We welcome first-timers.
+                </div>
+            </div>
+
+            <label>Past Show Experience</label>
+            <div class="paper">
+                <textarea name="past_show_experience"></textarea>
+            </div>
+        </div>
+
+        <div class="field large">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Give us an idea of the look and feel you envision for your booth.
+                </div>
+            </div>
+
+            <label>Vision for your Booth</label>
+            <div class="paper">
+                <textarea name="booth_vision"></textarea>
+            </div>
+        </div>
+
+        <div class="field large">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Anything else we should know? Tell us here!
+                </div>
+            </div>
+
+            <label>Other Notes to Consider</label>
+            <div class="paper">
+                <textarea name="other_notes"></textarea>
+            </div>
+        </div>
+
+
+        <div class="field">
+            <div class="help">
+                <i class="help-icon"></i>
+                <div class="help-text">
+                    Upload images that best represent your products and vision for your booth.
+                </div>
+            </div>
+
+            <label>Upload images</label>
+            <div class="paper">
+                <input name="pictures[]" type="file" name="images" multiple>
+            </div>
+        </div>
+
+        <div class="the-submit-button">
+            <input type="submit" value="Submit">
+        </div>
+
+    </form>
+</div>
+
+<script type="application/javascript" defer>
+    // preload hover urls.
+    var imgUrls = ['images/VAsubmitbuttonredarrow.png','images/VApaper1.png'];
+    imgUrls.forEach(function(url) {
+        var img = new Image();
+        img.src = url;
+    });
+</script>
+
+
+</body>
+</html>
