@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Form Viewier</title>
+    <title>Form Viewer</title>
 
     <style>
       img {
@@ -12,18 +12,18 @@
   </head>
   <body>
     <ul>
-      <li>created: {{ submission.created|as_tz('US/Pacific')|fmtdatetime }}</li>
-      {% for row in submission.rows %}
-        <li>{{ row.key }}: {{ row.value }}</li>
+      <li>Created: {{ submission.created|as_tz('US/Pacific')|fmtdatetime }}</li>
+      {% for key, value in pretty_data %}
+        <li><strong>{{ key }}:</strong> {{ value }}</li>
       {% endfor %}
 
-      {% for file in submission.files %}
-        <li>
+      <li>
+        Uploaded Images:<br>
+        {% for file in submission.files %}
           {% set imgurl = file.url_for() %}
-          {{ file.key }}: <br>
-          <a href="{{ imgurl }}"><img src="{{ imgurl }}"></a>
-        </li>
-      {% endfor %}
+          <a href="{{ imgurl }}"><img src="{{ imgurl }}"></a><br>
+        {% endfor %}
+      </li>
     </ul>
   </body>
 </html>

@@ -2,12 +2,13 @@ import os
 import random
 import subprocess
 import traceback
+from collections import OrderedDict
 from datetime import datetime
 from email.mime.text import MIMEText
 
 import pytz
 from flask import (Flask, request, redirect, abort, g, render_template,
-                   url_for, send_from_directory, redirect)
+                   url_for, send_from_directory)
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
@@ -183,7 +184,8 @@ def receiver(form_name):
         for uploaded_file in values:
             if uploaded_file.filename == '':
                 continue
-            db.session.add(SubmissionFile.from_upload(submission, uploaded_file))
+            file = SubmissionFile.from_upload(submission, uploaded_file)
+            db.session.add(file)
 
     db.session.commit()
 
@@ -199,9 +201,22 @@ def receiver(form_name):
 @app.route('/viewer/<form_name>/<submission_id>')
 def viewer(form_name, submission_id):
     submission = Submission.query.get_or_404(submission_id)
+    form_meta = app.config['FORMS'].get(form_name, {})
+    field_map = OrderedDict(form_meta.get('field_map', []))
+
+    pretty_data = []
+
+    for row in submission.rows:
+        pretty_name = field_map.get(row.key, row.key)
+        pretty_data.append((pretty_name, row.value))
+
+    pretty_indexes = dict(zip(field_map.values(), range(len(field_map))))
+    pretty_data.sort(key=lambda k: pretty_indexes.get(k[0], len(field_map)))
+
     context = {
         'form_name': form_name,
         'submission': submission,
+        'pretty_data': pretty_data,
     }
     return render_template('viewer.html', **context)
 
