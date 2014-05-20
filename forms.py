@@ -154,13 +154,29 @@ def send_email_task(submission):
     from_addr = form_meta.get('email_from',
                               app.config.get('EMAIL_DEFAULT_FROM'))
 
+    try:
+        context = {
+            'url': submission.url_for(_external=True),
+        }
+        for row in submission.rows:
+            context[row.key] = row.value
+        print('context', context)
+        message_text = render_template(submission.form_name + '.txt',
+                                       **context)
+    except flask.TemplateNotFound:
+        message_text = (
+            'There has been a new submission to {0}.\n\n'
+            'You can see the submission at {1}\n'
+            .format(pretty_name, submission.url_for(_external=True)))
+
+    subject, message_text = message_text.split('\n\n', 1)
+
     if to_addr and from_addr:
         print('Sending email.')
-        msg = MIMEText(submission.url_for(_external=True))
+        msg = MIMEText(message_text)
         msg['From'] = from_addr
         msg['To'] = to_addr
-        msg['Subject'] = ('There has been a new submission to {0}.'
-                          .format(pretty_name))
+        msg['Subject'] = subject
 
         p = subprocess.Popen(['/usr/sbin/sendmail', '-t', '-i'],
                              stdin=subprocess.PIPE)
