@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 
 import pytz
 from flask import (Flask, request, redirect, abort, g, render_template,
-                   url_for, send_from_directory)
+                   url_for, send_from_directory, redirect)
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
@@ -188,6 +188,10 @@ def receiver(form_name):
     db.session.commit()
 
     after_response(send_email_task, submission)
+
+    form_meta = app.config['FORMS'].get(form_name, {})
+    if 'redirect' in form_meta:
+        return redirect(form_meta['redirect'])
 
     return 'ok'
 
