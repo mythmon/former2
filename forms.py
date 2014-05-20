@@ -155,8 +155,12 @@ def send_email_task(submission):
                               app.config.get('EMAIL_DEFAULT_FROM'))
 
     try:
+        url = (submission.url_for(_external=True) or
+               'Uh oh! Something went wrong')
         context = {
-            'url': submission.url_for(_external=True),
+            'url': url,
+            'name': '[not given]',
+            'business_name': '[not given]',
         }
         for row in submission.rows:
             context[row.key] = row.value
@@ -181,8 +185,10 @@ def send_email_task(submission):
         p = subprocess.Popen(['/usr/sbin/sendmail', '-t', '-i'],
                              stdin=subprocess.PIPE)
         stdout, stderr = p.communicate(msg.as_string().encode())
-        print('stdout', stdout)
-        print('stderr', stderr)
+        if stdout:
+            print('stdout', stdout)
+        if stderr:
+            print('stderr', stderr)
     else:
         print('cannot send mail, to_addr:', to_addr, 'from_addr:', from_addr)
 
