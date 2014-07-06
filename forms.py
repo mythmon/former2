@@ -46,6 +46,15 @@ class Submission(db.Model):
         return url_for('.viewer', form_name=self.form_name,
                        submission_id=self.id, _external=_external)
 
+    def get_row(self, key, fallback=None):
+        rows = list(SubmissionRow.query.filter(
+            SubmissionRow.submission_id == self.id,
+            SubmissionRow.key == key))
+        if len(rows) != 1:
+            return fallback
+        else:
+            return rows[0].value
+
 
 class SubmissionRow(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -241,6 +250,17 @@ def viewer(form_name, submission_id):
         'pretty_data': pretty_data,
     }
     return render_template('viewer.html', **context)
+
+
+@app.route('/viewer/<form_name>/')
+def submission_list(form_name):
+    form_meta = app.config['FORMS'].get(form_name, {})
+    submissions = Submission.query.filter(Submission.form_name == form_name)
+    context = {
+        'form_name': form_name,
+        'submissions': submissions,
+    }
+    return render_template('list.html', **context)
 
 
 @app.route('/uploads/<filename>')

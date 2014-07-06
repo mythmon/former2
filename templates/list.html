@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Submission List</title>
+
+    <style>
+      table {
+        border-spacing: 0;
+        border-collapse: collapse;
+      }
+
+      table td,
+      table th {
+        border: 1px solid black;
+        padding: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Name</th>
+          <th>Company Name</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for submission in submissions %}
+          <tr>
+            <td>{{ submission.id }}</td>
+            <td>{{ submission.created|as_tz('US/Pacific')|fmtdatetime }}</td>
+            <td>{{ submission.get_row('name', 'N/A') }}</td>
+            <td>{{ submission.get_row('business_name', 'N/A') }}</td>
+            <td>{{ submission.get_row('email', 'N/A') }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
