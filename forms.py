@@ -10,6 +10,7 @@ import pytz
 from flask import (Flask, request, redirect, abort, g, render_template,
                    url_for, send_from_directory)
 from flask.ext.sqlalchemy import SQLAlchemy
+from jinja2 import TemplateNotFound
 from werkzeug.utils import secure_filename
 
 
@@ -176,7 +177,8 @@ def send_email_task(submission):
         print('context', context)
         message_text = render_template(submission.form_name + '.txt',
                                        **context)
-    except flask.TemplateNotFound:
+    except TemplateNotFound:
+        print('No template found, using default.')
         message_text = (
             'There has been a new submission to {0}.\n\n'
             'You can see the submission at {1}\n'
