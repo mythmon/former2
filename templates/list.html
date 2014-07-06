@@ -31,8 +31,16 @@
       <tbody>
         {% for submission in submissions %}
           <tr>
-            <td>{{ submission.id }}</td>
-            <td>{{ submission.created|as_tz('US/Pacific')|fmtdatetime }}</td>
+            <td>
+              <a href="{{ submission.id }}">
+                {{ submission.id }}
+              </a>
+            </td>
+            <td>
+              <a href="{{ submission.id }}">
+                {{ submission.created|as_tz('US/Pacific')|fmtdatetime }}
+              </a>
+            </td>
             <td>{{ submission.get_row('name', 'N/A') }}</td>
             <td>{{ submission.get_row('business_name', 'N/A') }}</td>
             <td>{{ submission.get_row('email', 'N/A') }}</td>
